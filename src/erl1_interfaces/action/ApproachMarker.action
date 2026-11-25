@@ -1,0 +1,11 @@
+# Goal: search ahead and approach the first marker NOT in this list
+int32[] ignore_ids
+---
+# Result
+bool success
+int32 marker_id
+---
+# Feedback
+string phase        # "search", "align", "approach" or "lost"
+int32 marker_id     # -1 while searching
+float32 side_error  # sd - s, in pixels

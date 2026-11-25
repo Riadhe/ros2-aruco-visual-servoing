@@ -1,0 +1,40 @@
+# Real ROSbot (namespace /rosbot_3). Exact settings of the first successful run.
+aruco_detector:
+  ros__parameters:
+    image_topic: /rosbot_3/camera/rgb/image_raw
+    image_transport: raw
+    detections_topic: /aruco/detections
+    marker_image_topic: /marker_image
+    reached_topic: /hunt/reached
+
+visual_servoing:
+  ros__parameters:
+    detections_topic: /aruco/detections
+    camera_info_topic: /rosbot_3/camera/rgb/camera_info
+    cmd_vel_topic: /rosbot_3/cmd_vel
+    desired_side: 166.0
+    reference_fx: 381.36
+    k_omega: 0.004
+    k_v: 0.003
+    max_omega: 0.25
+    max_v: 0.08
+    search_speed: 0.08
+    align_tolerance: 15.0
+    side_tolerance: 4.0
+    lost_timeout: 1.0
+
+rotation:
+  ros__parameters:
+    odom_topic: /rosbot_3/odometry/filtered
+    cmd_vel_topic: /rosbot_3/cmd_vel
+    k_yaw: 1.0
+    max_omega: 0.3
+    min_omega: 0.15
+    yaw_tolerance: 0.03
+
+treasure_hunt:
+  ros__parameters:
+    instruction_ids: [1, 2, 3]
+    instruction_angles: [-1.5708, 3.14159, 1.5708]
+    final_marker_id: 4
+    start_delay: 5.0

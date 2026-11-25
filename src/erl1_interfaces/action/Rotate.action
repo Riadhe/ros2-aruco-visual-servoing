@@ -1,0 +1,9 @@
+# Goal: rotate by this relative angle (rad). Positive = left (counter-clockwise)
+float64 angle
+---
+# Result
+bool success
+float64 final_error   # remaining yaw error (rad) when finished
+---
+# Feedback
+float64 remaining     # current yaw error (rad)

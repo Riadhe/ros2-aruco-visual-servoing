@@ -1,0 +1,41 @@
+# Parameters for the simulation. The top-level keys must match the node names.
+aruco_detector:
+  ros__parameters:
+    image_topic: /rosbot_1/camera/rgb/image_raw
+    image_transport: compressed            # "compressed" on WiFi (ROSbot)
+    detections_topic: /aruco/detections
+    marker_image_topic: /marker_image
+    reached_topic: /hunt/reached
+
+visual_servoing:
+  ros__parameters:
+    detections_topic: /aruco/detections
+    camera_info_topic: /rosbot_1/camera/camera_info
+    cmd_vel_topic: /cmd_vel
+    desired_side: 166.0             # sd [px] in simulation
+    reference_fx: 381.36            # fx of the simulated camera [px]
+    k_omega: 0.004
+    k_v: 0.003
+    max_omega: 0.4
+    max_v: 0.15
+    search_speed: 0.1
+    align_tolerance: 15.0
+    side_tolerance: 4.0
+    lost_timeout: 2.0
+
+rotation:
+  ros__parameters:
+    odom_topic: /rosbot_1/odometry/filtered  # EKF output
+    cmd_vel_topic: /cmd_vel
+    k_yaw: 1.0
+    max_omega: 0.5
+    min_omega: 0.2
+    yaw_tolerance: 0.03
+
+treasure_hunt:
+  ros__parameters:
+    instruction_ids: [1, 2, 3]
+    instruction_angles: [-1.5708, 3.14159, 1.5708]   # right 90, 180, left 90 [rad]
+    final_marker_id: 4
+    reached_topic: /hunt/reached
+    status_topic: /hunt/status
