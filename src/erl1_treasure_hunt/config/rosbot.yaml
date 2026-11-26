@@ -21,7 +21,8 @@ visual_servoing:
     search_speed: 0.08
     align_tolerance: 15.0
     side_tolerance: 4.0
-    lost_timeout: 1.0
+    lost_timeout: 2.0
+    far_ratio: 0.0            # new behavior OFF on the real robot 
 
 rotation:
   ros__parameters:

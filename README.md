@@ -8,11 +8,17 @@ Experimental Robotics Laboratory — University of Genova.
 
 ## Demo
 
-| Simulation | Real robot |
-|---|---|
-| _video link_ | _video link_ |
+### Simulation (Gazebo, 4× speed)
 
-## The Hunt
+![Simulation demo](docs/simulation_demo.gif)
+
+[Full simulation video (2× speed)](docs/simulation_2x.mp4)
+
+### Real robot (ROSbot, 4× speed)
+
+<img src="docs/real_robot_demo.gif" alt="Real robot demo" width="360">
+
+[Full real-robot video (2× speed)](docs/real_robot_2x.mp4)
 
 | Marker | Instruction |
 |---|---|
@@ -75,8 +81,23 @@ stateDiagram-v2
 
 where `u` is the marker center, `cx` the image center, `s` the marker size and `sd` the target size. On the real robot, `sd` is scaled with the camera focal length (`sd = 166 · f_robot / f_sim`) so the robot stops at the same distance.
 
-**Rotation**: the robot turns until the error between the target yaw and the odometry yaw is below a threshold. All angles are normalized to [−π, π].
+Far markers (more than ~1 m) cover only a few pixels and can flicker. While a marker is far, the robot keeps moving forward when it aligns or briefly loses it, instead of stopping.
 
+**Rotation**: the robot turns until the error between the target yaw and the odometry yaw is below a threshold. All angles are normalized to [−π, π].
+## From Simulation to the Real Robot
+
+The same nodes run on the ROSbot, but the real robot brought problems that did not exist in Gazebo. All were solved with parameters, not code changes.
+
+| Problem on the real robot | Cause | Solution |
+|---|---|---|
+| No robot topics visible | Each ROSbot has its own `ROS_DOMAIN_ID` | Set the domain id in every terminal |
+| Nodes receive nothing | Robot topics have a namespace (`/rosbot_3/...`) | All topic names are parameters in `rosbot.yaml` |
+| Different camera | 320×240, fx = 288 px (sim: 640×480, fx = 381 px) | Target size scaled from `camera_info` (166 → 125 px) |
+| Delayed images, `buffer size exceeded` | Raw images over a shared WiFi | Option to use compressed images |
+| Drift and missed markers at higher speed | Camera and network delay | Slower approach speeds; rotations stay faster because they use odometry |
+| Marker 2 not found after the first turn | Robot started a few degrees crooked | Same start pose for every run |
+
+In simulation the camera has no delay, so speed is almost free. On the real robot, the vision loop limits the speed, and reliability comes first.
 ## Repository Structure
 
 ```
