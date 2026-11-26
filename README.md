@@ -20,6 +20,8 @@ Experimental Robotics Laboratory — University of Genova.
 
 [Full real-robot video (2× speed)](docs/real_robot_2x.mp4)
 
+## The Hunt
+
 | Marker | Instruction |
 |---|---|
 | 1 | Turn right 90°, then go ahead |
@@ -84,6 +86,7 @@ where `u` is the marker center, `cx` the image center, `s` the marker size and `
 Far markers (more than ~1 m) cover only a few pixels and can flicker. While a marker is far, the robot keeps moving forward when it aligns or briefly loses it, instead of stopping.
 
 **Rotation**: the robot turns until the error between the target yaw and the odometry yaw is below a threshold. All angles are normalized to [−π, π].
+
 ## From Simulation to the Real Robot
 
 The same nodes run on the ROSbot, but the real robot brought problems that did not exist in Gazebo. All were solved with parameters, not code changes.
@@ -98,6 +101,7 @@ The same nodes run on the ROSbot, but the real robot brought problems that did n
 | Marker 2 not found after the first turn | Robot started a few degrees crooked | Same start pose for every run |
 
 In simulation the camera has no delay, so speed is almost free. On the real robot, the vision loop limits the speed, and reliability comes first.
+
 ## Repository Structure
 
 ```
@@ -108,6 +112,7 @@ src/
 └── erl1_treasure_hunt/   # Visual servoing, rotation, state machine (Python)
     ├── launch/           # hunt_sim.launch.py, hunt_rosbot.launch.py
     └── config/           # sim.yaml, rosbot.yaml
+docs/                     # Demo GIFs and videos
 ```
 
 ## Requirements
@@ -125,7 +130,7 @@ sudo apt install ros-jazzy-ros-gz ros-jazzy-robot-localization ros-jazzy-xacro \
 
 ```bash
 mkdir -p ~/erl_ws && cd ~/erl_ws
-git clone https://github.com/Riadhe/<repo-name>.git .
+git clone https://github.com/Riadhe/ros2-aruco-visual-servoing.git .
 colcon build
 source install/setup.bash
 ```
@@ -160,7 +165,7 @@ sed -i 's#/rosbot_[0-9]*/#/rosbot_3/#g' src/erl1_treasure_hunt/config/rosbot.yam
 colcon build --packages-select erl1_treasure_hunt
 ```
 
-3. Place the robot in front of marker 1 and launch:
+3. Place the robot straight in front of marker 1 and launch:
 
 ```bash
 ros2 launch erl1_treasure_hunt hunt_rosbot.launch.py
@@ -189,7 +194,7 @@ instruction_angles: [-1.5708, 1.5708, 1.5708]
 | Target size | 166 px | 125 px (scaled) |
 | Size at each stop | ~162 px | ~122 px |
 | Rotation error | < 1.1° | < 1.3° |
-| Full hunt | ~80 s | ~100 s |
+| Full hunt | ~90 s | ~100 s |
 
 ## Author
 
